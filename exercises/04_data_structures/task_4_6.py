@@ -28,3 +28,14 @@ Next-Hop              {}
 Last update           {}
 Outbound Interface    {}
 """
+b = ospf_route.replace(',',' ')
+a = b.strip().split()
+a.remove('via')
+tuple1 = tuple(a)
+#print(a)
+c = a[1]
+c.strip('[]')
+#print(c.format(a[0], a[1], a[2], a[3], a[4]))
+print(template.format(a[0], a[1].strip('[]'), a[2], a[3], a[4]))
+#print(template.format(a))
+

@@ -16,3 +16,5 @@
 """
 
 mac = "AAAA:BBBB:CCCC"
+a = mac.replace(':','')
+print(bin(int(a, 16)).lstrip('0b'))
