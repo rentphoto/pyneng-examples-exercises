@@ -49,3 +49,24 @@ bin_ip = "00001010000000010000000111000011"
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+network = input("Введите адрес сети: ")
+
+ip, mask = network.split("/")
+ip_list = ip.split(".")
+mask = int(mask)
+
+a = '{:0>8b}'.format(int(ip_list[0]))
+
+oct1, oct2, oct3, oct4 = [
+    int(ip_list[0]),
+    int(ip_list[1]),
+    int(ip_list[2]),
+    int(ip_list[3]),
+]
+
+ip_list_b = [
+    bin(int(ip_list[0])),
+    int(ip_list[1]),
+    int(ip_list[2]),
+    int(ip_list[3]),
+]
