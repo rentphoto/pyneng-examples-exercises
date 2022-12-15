@@ -55,18 +55,11 @@ ip, mask = network.split("/")
 ip_list = ip.split(".")
 mask = int(mask)
 
-a = '{:0>8b}'.format(int(ip_list[0]))
-
+ip_b = '{:0>8b}{:0>8b}{:0>8b}{:0>8b}'.format(int(ip_list[0]), int(ip_list[1]), int(ip_list[2]), int(ip_list[3]))
+net_b = ip_b[0:mask] + '0'*(32-mask)
 oct1, oct2, oct3, oct4 = [
-    int(ip_list[0]),
-    int(ip_list[1]),
-    int(ip_list[2]),
-    int(ip_list[3]),
-]
-
-ip_list_b = [
-    bin(int(ip_list[0])),
-    int(ip_list[1]),
-    int(ip_list[2]),
-    int(ip_list[3]),
+    int(net_b[0:8], 2),
+    int(net_b[8:16], 2),
+    int(net_b[16:24], 2),
+    int(net_b[24:32], 2),
 ]
