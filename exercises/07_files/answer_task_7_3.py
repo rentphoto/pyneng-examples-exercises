@@ -20,13 +20,10 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
-output = "{:9}{:20}{}"
 
-with open("CAM_table.txt", "r") as f:
-    for line in f:
-        line_str = line.strip()
-        #a = line_str[0]
-        if line_str and line_str[0].isdigit():
-            line_arr = line_str.split()
-            print("{:9}{:20}{}".format(line_arr[0], line_arr[1], line_arr[3]))
-       
+with open("CAM_table.txt") as conf:
+    for line in conf:
+        words = line.split()
+        if words and words[0].isdigit():
+            vlan, mac, _, interface = words
+            print(f"{vlan:9}{mac:20}{interface}")
