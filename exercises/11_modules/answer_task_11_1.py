@@ -44,31 +44,18 @@ def parse_cdp_neighbors(command_output):
     Плюс учимся работать с таким выводом.
     """
     result = {}
-    a = command_output.split('\n')
-    c = [b.strip() for b in a]
-
-    for position, line in enumerate(c):
-        if 'show cdp neighbors' in line:
-            loc_dev = line[:line.find('>')]
-            #print(line)
-        elif 'Device ID' in line:
-            table = c[position + 1::]
-            for item in table:
-                if item:
-                    locl_int = item[line.find('Local'):line.find('Holdtme')].strip().replace(' ', '')
-                    dest_dev = item[:line.find('Local')].strip()
-                    dest_int = item[line.find('Port ID'):].strip().replace(' ', '')
-                    result[loc_dev, locl_int] = (dest_dev, dest_int)
-                else:
-                    break
-#                 print(result)
-#                 print(dest_int)
-#                 print(dest_dev)
-#             result[device] = 
-#     elif 'MTU is' in line:
-#         mtu = line.split()[-2]
-#         result[interface] = mtu
+    for line in command_output.split("\n"):
+        line = line.strip()
+        columns = line.split()
+        if ">" in line:
+            hostname = line.split(">")[0]
+        # 3 индекс это столбец holdtime - там всегда число
+        elif len(columns) >= 5 and columns[3].isdigit():
+            r_host, l_int, l_int_num, *other, r_int, r_int_num = columns
+            result[(hostname, l_int + l_int_num)] = (r_host, r_int + r_int_num)
     return result
+
+
 if __name__ == "__main__":
-    with open("sh_cdp_n_r3.txt") as f:
+    with open("sh_cdp_n_sw1.txt") as f:
         print(parse_cdp_neighbors(f.read()))
