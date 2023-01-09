@@ -73,9 +73,6 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
-from answer_task_11_2 import create_network_map
-from draw_network_graph import draw_topology
-from pprint import pprint
 
 infiles = [
     "sh_cdp_n_sw1.txt",
@@ -84,27 +81,20 @@ infiles = [
     "sh_cdp_n_r3.txt",
 ]
 
+
 def unique_network_map(topology_dict):
-    topology_uniq = {}
-    a = 'delete'
-    for key in topology_dict:
-        for key2, value in topology_dict.items():
-            if key == value:
-                topology_dict[key] = a
-#             elif value == a:
-#                 continue
-#             else:
-#                 topology_uniq[key2] = value
+    network_map = {}
     for key, value in topology_dict.items():
-        if value == a:
-            continue
-        else:
-            topology_uniq[key] = value
-    #topology_uniq = topology_dict.copy()
-    return topology_uniq
+        if not network_map.get(value) == key:
+            network_map[key] = value
+    return network_map
 
-topology_dictonary = create_network_map(infiles)
-topology = unique_network_map(topology_dictonary)
 
-pprint(topology)
-draw_topology(topology)
+# второй вариант решения
+def unique_network_map(topology_dict):
+    network_map = {}
+    for key, value in topology_dict.items():
+        key, value = sorted([key, value])
+        network_map[key] = value
+    return network_map
+
