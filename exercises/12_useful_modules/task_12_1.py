@@ -17,3 +17,21 @@ IP-адрес считается доступным, если выполнени
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 """
+import subprocess
+from pprint import pprint
+
+addresslist = ['8.8.8.8', '0.0.0.0', '172.16.17.17']
+
+def ping_ip_addresses(addrlist):
+    alive = []
+    unreachable = []
+    for addr in addrlist:
+        reply = subprocess.run(['ping', '-c', '3', '-n', addr], stdout=subprocess.DEVNULL)
+        if reply.returncode == 0:
+            alive.append(addr)
+        else:
+            unreachable.append(addr)
+    return alive, unreachable
+
+if __name__ == "__main__":
+    pprint(ping_ip_addresses(addresslist))

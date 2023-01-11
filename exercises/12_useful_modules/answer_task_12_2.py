@@ -35,27 +35,19 @@
 
 """
 import ipaddress
-ranges = ['8.8.4.4', '1.1.1.1-3', '172.21.41.128-172.21.41.132', '1.1.1.254']
-def convert_ranges_to_ip_list(ranges):
-    ip_list = []
-    for ip in ranges:
-        try:
-            ipv4 = ipaddress.ip_address(ip)
-            ip_list.append(ipv4)
-        except ValueError:
-            ipv4 = ipaddress.ip_address(ip[0:ip.find('-')])
-            ip_list.append(ipv4)            
-            if ip.count('.') == 3:
-                start = int(ip.split('.')[3].split('-')[0])
-                end = int(ip.split('.')[3].split('-')[1])
-            else:
-                start = int(ip.split('.')[3].split('-')[0])
-                end = int(ip.split('.')[6])
-            for i in range(start,end):
-                ipv4 = ipv4 + 1
-                ip_list.append(ipv4)
-    result = [f'{address}' for address in ip_list]
-    return result
 
-if __name__ == "__main__":
-    print(convert_ranges_to_ip_list(ranges))
+
+def convert_ranges_to_ip_list(ip_addresses):
+    ip_list = []
+    for ip_address in ip_addresses:
+        if "-" in ip_address:
+            start_ip, stop_ip = ip_address.split("-")
+            if "." not in stop_ip:
+                stop_ip = ".".join(start_ip.split(".")[:-1] + [stop_ip])
+            start_ip = ipaddress.ip_address(start_ip)
+            stop_ip = ipaddress.ip_address(stop_ip)
+            for ip in range(int(start_ip), int(stop_ip) + 1):
+                ip_list.append(str(ipaddress.ip_address(ip)))
+        else:
+            ip_list.append(ip_address)
+    return ip_list
